@@ -41,8 +41,6 @@
     <svg class="container"></svg>
 </body>
 <script>
-    // JIEJOE produce
-    // b站主页：https://space.bilibili.com/3546390319860710
     const magnetic = {
         container: document.querySelector(".container"),
         width: 0,
@@ -71,16 +69,27 @@
                 for (let l = 0; l <= this.lines; l++) {
                     let x = this.width / this.lines * l;
                     let y = this.height / this.rows * r;
+                    
+                    // 计算到中心的距离比例
+                    const centerX = this.width / 2;
+                    const centerY = this.height / 2;
+                    const distanceToCenter = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+                    const maxDistance = Math.sqrt((this.width / 2) ** 2 + (this.height / 2) ** 2);
+                    const distanceRatio = distanceToCenter / maxDistance;
+                    
+                    // 边缘元素更小，中心元素保持原大小
+                    const dynamicRadius = radius * (1 - 0.5 * distanceRatio);
+                    
                     const ball = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    ball.setAttribute("fill", "#17f700");
+                    ball.setAttribute("fill", "#f3f3f3");
                     ball.setAttribute("cx", x);
                     ball.setAttribute("cy", y);
-                    ball.setAttribute("r", radius);
+                    ball.setAttribute("r", dynamicRadius);
                     const point = document.createElementNS("http://www.w3.org/2000/svg", "circle");
                     point.setAttribute("fill", "#f7f7f7");
                     point.setAttribute("cx", x);
                     point.setAttribute("cy", y);
-                    point.setAttribute("r", radius / 5);
+                    point.setAttribute("r", dynamicRadius / 5);
                     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
                     line.setAttribute("x1", x);
                     line.setAttribute("y1", y);
